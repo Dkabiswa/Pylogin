@@ -35,4 +35,34 @@ def user_signup():
         text_file.write(user + '\n')
     print('user created successfully')
 
-user_signup()
+def user_login():
+    email = input('Enter email ')
+    password = input('Enter password ')
+    user = check_user_exists(email)
+    if not user:
+        print('wrong email and password')
+        return
+    db = base64.b64decode(user['password'].encode(encoding='UTF-8', errors='strict'))
+    if password == db.decode('UTF-8'):
+        print('User login succesful')
+    else:
+        print('wrog email and password')
+    
+count = 0    
+while True:
+    decision = input('Enter s for Signup or l for login -> ').lower()
+    if decision == 's':
+        user_signup()
+        break
+    elif decision == 'l':
+        user_login()
+        break
+    else:
+        count +=1
+        if count == 3:
+            print('Out of trials')
+            break
+        else:
+            print('Wrong input, try again')
+
+
